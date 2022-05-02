@@ -1,15 +1,17 @@
-import Directory from "./components/directory/directory.component";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Directory from "../../directory/directory.component";
 
-const App = () => {
+const Home = () => {
   const categories = [
     {
       id: 1,
-      title: "hats",
+      title: "HATS",
       imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
     },
     {
       id: 2,
-      title: "jackets",
+      title: "JACKETS",
       imageUrl: "https://i.ibb.co/px2tCc3/jackets.png",
     },
     {
@@ -29,7 +31,12 @@ const App = () => {
     },
   ];
 
-  return <Directory categories={categories} />;
+  return (
+    <div>
+      <Outlet />
+      <Directory categories={categories} />
+    </div>
+  );
 };
 
-export default App;
+export default Home;
