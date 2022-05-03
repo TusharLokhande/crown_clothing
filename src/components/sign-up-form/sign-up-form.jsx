@@ -14,8 +14,6 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields);
-
   //HANDE CHANGE
   const handleChange = (e) => {
     let { value, name } = e.target;
@@ -62,8 +60,8 @@ const SignUpForm = () => {
           type="text"
           required
           onChange={handleChange}
-          name="email"
-          value={email}
+          name="displayName"
+          value={displayName}
         />
 
         <FormInput
