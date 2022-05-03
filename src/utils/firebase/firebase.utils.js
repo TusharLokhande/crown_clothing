@@ -5,6 +5,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -21,19 +22,34 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 //Authentication
-const provider = new GoogleAuthProvider();
+const gooogleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+gooogleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, gooogleProvider);
+
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, gooogleProvider);
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
 
 //Database
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInfomration = {}
+) => {
+  if (!userAuth) return;
   //doc(db, collections, uid)
   const userDocRef = doc(db, "users", userAuth.uid);
   console.log(userDocRef);
@@ -43,10 +59,6 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   console.log(userSnapShot);
   console.log(userSnapShot.exists());
 
-  //
-
-  //if user's does not exits it will return true
-  //create /set the document from the data from the userAuth in my collections
   if (!userSnapShot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -56,6 +68,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalInfomration,
       });
     } catch (error) {
       console.log("Error in creating a user: ", error.message);
