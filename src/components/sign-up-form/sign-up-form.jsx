@@ -37,9 +37,7 @@ const SignUpForm = () => {
         email,
         password
       );
-
       await createUserDocumentFromAuth(user, { displayName });
-      console.log(user);
 
       resetFormFields();
     } catch (err) {
