@@ -1,2 +1,2 @@
-# Crown Clothing is E-commerce Web App
+# Crown Clothing
 This is app work is still is progress.
