@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -7,6 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -50,7 +51,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 //Database
 export const db = getFirestore();
-
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInfomration = {}
@@ -84,3 +84,11 @@ export const createUserDocumentFromAuth = async (
   //if data exits
   return userDocRef;
 };
+
+//SIGN OUT USER
+export const signOutUser = async () => await signOut(auth);
+
+//It will call the callback whenever the onAuthState changes.
+//e.g.: When user sign in/sign-out consider as the auth change, so it will call the callback.
+export const onAuthStateChangeListener = (callback) =>
+  onAuthStateChanged(auth, callback);
